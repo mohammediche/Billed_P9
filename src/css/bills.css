@@ -54,15 +54,6 @@
   height: 70vh;
 }
 
-.icon-actions {
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-around;
-  -ms-flex-pack: justify;
-  justify-content: space-around;
-  align-items: center;
-}
-
 .table td, .table th {
   border-top: 0px solid #fff !important;
 }

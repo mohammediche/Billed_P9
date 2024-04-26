@@ -95,6 +95,7 @@ export default class {
       $(`#open-bill${bill.id}`).css({ background: '#2A2B35' })
       $('.dashboard-right-container div').html(DashboardFormUI(bill))
       $('.vertical-navbar').css({ height: '150vh' })
+      this.counter++
     } else {
       $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' })
 
@@ -102,6 +103,7 @@ export default class {
         <div id="big-billed-icon" data-testid="big-billed-icon"> ${BigBilledIcon} </div>
       `)
       $('.vertical-navbar').css({ height: '120vh' })
+      this.counter++
     }
     $('#icon-eye-d').click(this.handleClickIconEye)
     $('#btn-accept-bill').click((e) => this.handleAcceptSubmit(e, bill))
@@ -142,7 +144,13 @@ export default class {
         .html("")
       this.counter ++
     }
+    // Désactive l'event click pour tous les tickets
+    bills.forEach(bill => {
 
+      $(`#open-bill${bill.id}`).off('click');
+
+    });
+    // Puis enregistrer les nouveaux
     bills.forEach(bill => {
       $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
     })

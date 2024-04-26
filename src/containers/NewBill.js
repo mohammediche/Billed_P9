@@ -43,7 +43,7 @@ export default class NewBill {
             this.fileName = fileName
           }).catch(error => console.error(error))
       }else{
-        alert('Your extension is not valid, only jpeg, jpg and png are accepted')
+        console.log("Your extension is not valid, only jpeg, jpg and png are accepted");
       }
     }
  

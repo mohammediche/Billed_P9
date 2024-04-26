@@ -64,5 +64,48 @@ describe("Given I am connected as an employee", () => {
       expect(newBill.fileUrl).not.toBe('null')
       expect(newBill.fileName).not.toBe('null')
     })
+
+   test('Then I fill in all the fields, handleSubmit should work correctly', () => {
+      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+      window.localStorage.setItem('user', JSON.stringify({
+        type: 'Employee'
+      }))
+      document.body.innerHTML = NewBillUI()
+      
+      const onNavigate = (pathname) => {
+        document.body.innerHTML = ROUTES({ pathname })
+      }
+      const store = Store
+      const newBill = new NewBill({
+        document, onNavigate, store, localStorage: window.localStorage
+      })
+      const inputFile = screen.getByTestId('file')
+      const validFile = new File(["valid content"], "valid-file.jpg", {
+        type: "image/jpg",
+      });
+      const type = screen.getByTestId('expense-type')
+      const name = screen.getByTestId('expense-name')
+      const amount = screen.getByTestId('amount')
+      const datepicker = screen.getByTestId('datepicker')
+      const vat = screen.getByTestId('vat')
+      const pct = screen.getByTestId('pct')
+      const commentary = screen.getByTestId('commentary')
+
+      fireEvent.change(inputFile, { target: { files: [validFile] } });
+      fireEvent.change(type, { target: { value: "Hôtel et logement" } });
+      fireEvent.change(name, { target: { value: "encore" } });
+      fireEvent.change(amount, { target: { value: 400 } });
+      fireEvent.change(datepicker, { target: { value: "2004-04-04" } });
+      fireEvent.change(vat, { target: { value: "80" } });
+      fireEvent.change(pct, { target: { value: 20 } });
+      fireEvent.change(commentary, { target: { value: "séminaire billed" } });
+
+      const handleSubmit = jest.fn((e) => newBill.handleSubmit(e))
+      const form = screen.getByTestId('form-new-bill');
+      form.addEventListener('submit', handleSubmit);
+      fireEvent.submit(form);
+
+      expect(handleSubmit).toHaveBeenCalled()
+   })
   })
 })

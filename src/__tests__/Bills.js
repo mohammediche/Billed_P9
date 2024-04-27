@@ -63,6 +63,53 @@ describe("Given I am connected as an employee", () => {
     
       expect(onNavigateSpy).toHaveBeenCalledWith(ROUTES_PATH['NewBill']);
     });
+    test('Then should handle corrupted data in formatDate function', async () => {
+      const corruptedBill = {
+        "id": "invalidBillId",
+        "vat": "20",
+        "fileUrl": "https://test.storage.tld/invalid-bill.jpg",
+        "status": "pending",
+        "type": "Invalid Type",
+        "commentary": "corrupted data",
+        "name": "invalid bill",
+        "fileName": "invalid-bill.jpg",
+        "date": "Invalid Date Format",
+        "amount": 100,
+        "commentAdmin": "corruption",
+        "email": "a@a",
+        "pct": 20
+      };
+
+      const mockedBills = {
+        list() {
+          return Promise.resolve([...bills, corruptedBill]);
+        },
+        create: jest.fn(),
+        update: jest.fn(),
+      };
+
+      Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+      window.localStorage.setItem('user', JSON.stringify({
+        type: 'Employee'
+      }));
+
+      const root = document.createElement("div");
+      root.setAttribute("id", "root");
+      document.body.append(root);
+
+      router();
+      window.onNavigate(ROUTES_PATH.Bills);
+
+      const bill = new Bills({
+        document, onNavigate, store: { bills: () => mockedBills }, localStorage: window.localStorage
+      });
+
+      const listBills = await bill.getBills();
+
+      const foundCorruptedBill = listBills.find((bill) => bill.id === corruptedBill.id);
+
+      expect(foundCorruptedBill).toBeDefined();
+    });
     test("Then fetches bills from mock API GET", async () => {
       const mockedBills = {
         list: jest.fn(() => Promise.resolve(bills)),

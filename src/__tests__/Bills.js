@@ -2,13 +2,16 @@
  * @jest-environment jsdom
  */
 
-import {screen, waitFor} from "@testing-library/dom"
+import {screen, waitFor, fireEvent} from "@testing-library/dom"
 import BillsUI from "../views/BillsUI.js"
 import { bills } from "../fixtures/bills.js"
+import Bills from "../containers/Bills.js"
 import { ROUTES_PATH} from "../constants/routes.js";
 import {localStorageMock} from "../__mocks__/localStorage.js";
-
+import Store from "../__mocks__/store.js"
 import router from "../app/Router.js";
+import { expectedBills } from "../fixtures/expectedBills.js";
+
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on Bills Page", () => {
@@ -36,5 +39,29 @@ describe("Given I am connected as an employee", () => {
       const datesSorted = [...dates].sort(antiChrono)
       expect(dates).toEqual(datesSorted)
     })
+    it('Then it should navigate to NewBill page when "New Bill" button is clicked', () => {
+      Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+      window.localStorage.setItem('user', JSON.stringify({
+        type: 'Employee'
+      }));
+    
+      const root = document.createElement("div");
+      root.setAttribute("id", "root");
+      document.body.append(root);
+    
+      router();
+      window.onNavigate(ROUTES_PATH.Bills);
+    
+      const bill = new Bills({
+        document, onNavigate, store: Store, localStorage: window.localStorage
+      });
+    
+      const onNavigateSpy = jest.spyOn(bill, 'onNavigate');
+    
+      const buttonNewBill = screen.getByTestId('btn-new-bill');
+      fireEvent.click(buttonNewBill);
+    
+      expect(onNavigateSpy).toHaveBeenCalledWith(ROUTES_PATH['NewBill']);
+    });
   })
 })

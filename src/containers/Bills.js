@@ -38,7 +38,6 @@ export default class {
             try {
               return {
                 ...doc,
-                dateRaw: doc.date,
                 date: formatDate(doc.date),
                 status: formatStatus(doc.status)
               }

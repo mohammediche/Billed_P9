@@ -20,15 +20,16 @@ const row = (bill) => {
   }
 
 const rows = (data) => {
-  return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
+  if (data) {
+    // tri par ordre décroissant
+    const sortedBills = data.sort((a, b)=> new Date(b.date) - new Date(a.date));
+    return sortedBills.map(bill=> row(bill)).join("");
+  }else{
+    return
+  }
 }
 
 export default ({ data: bills, loading, error }) => {
-  
-  const antiChrono = (a, b) => ((a.dateRaw < b.dateRaw) ? 1 : -1)
-  if (bills) {
-      bills.sort(antiChrono)
-  }
 
   
   const modal = () => (`

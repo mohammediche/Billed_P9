@@ -8,7 +8,6 @@ export const expectedBills = [{
     name: "encore",
     fileName: "preview-facture-free-201801-pdf-1.jpg",
     date: "4 Avr. 04",
-    dateRaw: "2004-04-04",
     amount: 400,
     commentAdmin: "ok",
     email: "a@a",
@@ -25,7 +24,6 @@ export const expectedBills = [{
     amount: 300,
     status: "Accepté",
     date: "3 Mar. 03",
-    dateRaw: "2003-03-03",
     commentary: "",
     fileName: "facture-client-php-exportee-dans-document-pdf-enregistre-sur-disque-dur.png",
     fileUrl: "https://test.storage.tld/v0/b/billable-677b6.a…dur.png?alt=media&token=571d34cb-9c8f-430a-af52-66221cae1da3"
@@ -40,7 +38,6 @@ export const expectedBills = [{
     vat: "40",
     fileName: "preview-facture-free-201801-pdf-1.jpg",
     date: "2 Fév. 02",
-    dateRaw: "2002-02-02",
     commentAdmin: "pas la bonne facture",
     commentary: "test2",
     type: "Restaurants et bars",
@@ -58,7 +55,6 @@ export const expectedBills = [{
     email: "a@a",
     fileUrl: "https://test.storage.tld/v0/b/billable-677b6.a…61.jpeg?alt=media&token=7685cd61-c112-42bc-9929-8a799bb82d8b",
     date: "1 Jan. 01",
-    dateRaw: "2001-01-01",
     status: "Refused",
     commentAdmin: "en fait non"
   },
